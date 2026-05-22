@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Campus Library</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="logo" id="logoBtn" title="Volver al inicio" style="cursor:pointer">Campus <em>Library</em></div>
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Buscar por título, autor o ISBN…" aria-label="Buscar libros" />
+        <button class="btn btn-primary" id="searchBtn">🔍 Buscar</button>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" id="themeBtn" title="Cambiar tema" aria-label="Cambiar tema">☀️</button>
+      </div>
+    </div>
+
+    <nav class="nav-tabs" role="tablist">
+      <button class="nav-tab active" data-tab="catalogo" role="tab">📚 Catálogo</button>
+      <button class="nav-tab" data-tab="lectura" role="tab">📖 Lista de Lectura</button>
+      <button class="nav-tab" data-tab="reservas" role="tab">🗂 Reservas</button>
+      <button class="nav-tab" data-tab="favoritos" role="tab">⭐ Favoritos</button>
+      <button class="nav-tab" data-tab="historial" role="tab">🕐 Historial</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="page-catalogo" class="page active">
+      <div class="catalog-topbar">
+        <span class="results-info" id="resultsInfo"></span>
+        <div style="position:relative">
+          <button class="btn-filtros" id="btnFiltros">✦ Filtros <span class="filtros-badge" id="filtrosBadge" style="display:none"></span></button>
+          <div class="filtros-panel" id="filtrosPanel">
+            <div class="filtros-panel-header">
+              <span class="filtros-panel-title">Filtros</span>
+              <button class="filtros-panel-close" id="closeFiltrosBtn">✕</button>
+            </div>
+            <div class="filtro-group">
+              <label class="filtro-label" for="filterLang">IDIOMA</label>
+              <select class="filtro-select" id="filterLang">
+                <option value="">Todos los idiomas</option>
+                <option value="es">Español</option>
+                <option value="en">Inglés</option>
+                <option value="fr">Francés</option>
+                <option value="pt">Portugués</option>
+                <option value="de">Alemán</option>
+                <option value="it">Italiano</option>
+                <option value="ja">Japonés</option>
+              </select>
+            </div>
+            <div class="filtro-group">
+              <label class="filtro-label" for="filterYear">AÑO (DESDE)</label>
+              <input type="text" class="filtro-input" id="filterYear" placeholder="ej. 2000" maxlength="4" aria-label="Año desde" />
+            </div>
+            <div class="filtro-group">
+              <label class="filtro-label" for="filterGenre">TEMA / GÉNERO</label>
+              <input type="text" class="filtro-input" id="filterGenre" placeholder="ej. terror, romance…" aria-label="Género o tema" />
+            </div>
+            <div class="filtros-panel-footer">
+              <button class="btn-filtro-limpiar" id="clearFiltersBtn">Limpiar</button>
+              <button class="btn-filtro-aplicar" id="applyFiltersBtn">Aplicar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="filtros-chips" id="filtrosChips"></div>
+      <div id="booksContainer">
+        <div class="spinner-wrap"><div class="spinner"></div></div>
+      </div>
+      <div class="load-more-wrap" id="loadMoreWrap" style="display:none">
+        <button class="btn btn-ghost" id="loadMoreBtn">Cargar más libros ↓</button>
+      </div>
+    </section>
+
+    <section id="page-lectura" class="page">
+      <h2 class="section-title">📖 Lista de Lectura</h2>
+      <div class="rl-tabs">
+        <button class="rl-tab active" data-rl="todos">Todos</button>
+        <button class="rl-tab" data-rl="pendiente">⏳ Pendiente</button>
+        <button class="rl-tab" data-rl="leyendo">📖 Leyendo</button>
+        <button class="rl-tab" data-rl="terminado">✅ Terminado</button>
+      </div>
+      <div class="item-list" id="rlList"></div>
+    </section>
+
+    <section id="page-reservas" class="page">
+      <h2 class="section-title">🗂 Mis Reservas</h2>
+      <div class="item-list" id="reservasList"></div>
+    </section>
+
+    <section id="page-favoritos" class="page">
+      <h2 class="section-title">⭐ Favoritos</h2>
+      <div class="books-grid" id="favGrid"></div>
+    </section>
+
+    <section id="page-historial" class="page">
+      <h2 class="section-title">🕐 Historial de Búsquedas</h2>
+      <div style="display:flex; justify-content:flex-end; margin-bottom:14px">
+        <button class="btn btn-ghost btn-sm" id="clearHistoryBtn">🗑 Limpiar historial</button>
+      </div>
+      <div class="item-list" id="histList"></div>
+    </section>
+  </main>
+
+  <div class="overlay" id="bookOverlay" role="dialog" aria-modal="true" aria-label="Detalle del libro">
+    <div class="modal" id="bookModal">
+      <button class="close-btn" id="closeModalBtn" aria-label="Cerrar">✕</button>
+      <div class="modal-header" id="mHead"></div>
+      <div class="modal-body" id="mBody"></div>
+    </div>
+  </div>
+
+  <div class="toasts" id="toastsWrap" aria-live="polite"></div>
+
+  <script type="module" src="assets/js/app.js"></script>
+</body>
+</html>
