@@ -1,16 +1,13 @@
-import { BookMarked, Star } from 'lucide-react';
+import { Star } from 'lucide-react';
 import { languageTag } from '../utils/books.js';
+import CoverImage from './CoverImage.jsx';
 
 function BookCard({ book, favorite, onOpen, onToggleFavorite }) {
   return (
     <article className="book-card">
       <button className="book-card-main" onClick={() => onOpen(book.id)} aria-label={`Ver detalles de ${book.titulo}`}>
         <div className="book-cover">
-          {book.portada ? (
-            <img src={book.portada} alt={`Portada de ${book.titulo}`} loading="lazy" />
-          ) : (
-            <div className="cover-ph"><BookMarked size={32} /></div>
-          )}
+          <CoverImage book={book} alt={`Portada de ${book.titulo}`} />
         </div>
         <div className="book-info">
           <h3 className="book-title">{book.titulo}</h3>

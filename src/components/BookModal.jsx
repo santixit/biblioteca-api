@@ -1,7 +1,8 @@
-import { Archive, BookMarked, BookOpen, ExternalLink, Star, X } from 'lucide-react';
+import { Archive, BookOpen, ExternalLink, Star, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { fetchDescription } from '../services/openLibrary.js';
 import { languageTag, readingStatusLabel } from '../utils/books.js';
+import CoverImage from './CoverImage.jsx';
 
 function BookModal({
   book,
@@ -53,11 +54,7 @@ function BookModal({
 
         <div className="modal-header">
           <div className="modal-cover">
-            {book.portada ? (
-              <img src={book.portada} alt={`Portada de ${book.titulo}`} />
-            ) : (
-              <div className="modal-cover-ph"><BookMarked size={34} /></div>
-            )}
+            <CoverImage book={book} alt={`Portada de ${book.titulo}`} placeholderSize={34} />
           </div>
 
           <div className="modal-meta">

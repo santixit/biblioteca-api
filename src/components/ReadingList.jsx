@@ -1,6 +1,7 @@
 import { BookOpen, Trash2 } from 'lucide-react';
 import EmptyState from './EmptyState.jsx';
 import { readingStatusLabel } from '../utils/books.js';
+import CoverImage from './CoverImage.jsx';
 
 const filters = [
   { id: 'todos', label: 'Todos' },
@@ -34,7 +35,7 @@ function ReadingList({ filter, items, onFilterChange, onRemove, onStatusChange }
           {visibleItems.map((book) => (
             <div className="item-row" key={book.id}>
               <div className="thumb">
-                {book.portada ? <img src={book.portada} alt="" /> : <BookOpen size={22} />}
+                {book.portada || book.portadas?.length ? <CoverImage book={book} alt="" placeholderSize={20} /> : <BookOpen size={22} />}
               </div>
               <div className="item-info">
                 <div className="item-title">{book.titulo}</div>

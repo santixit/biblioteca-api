@@ -10,6 +10,8 @@ const FIELDS = [
   'subject',
   'isbn',
   'cover_i',
+  'cover_edition_key',
+  'edition_key',
   'number_of_pages_median',
   'edition_count',
 ].join(',');
@@ -41,7 +43,11 @@ export async function fetchBooks({ query = DEFAULT_QUERY, offset = 0, filters = 
 
 export function mapBook(doc) {
   const coverId = doc.cover_i;
+  const isbn = Array.isArray(doc.isbn) ? doc.isbn.find(Boolean) || '' : '';
+  const coverEditionKey = doc.cover_edition_key || '';
+  const editionKey = Array.isArray(doc.edition_key) ? doc.edition_key.find(Boolean) || '' : '';
   const id = doc.key ? doc.key.replace('/works/', '') : Math.random().toString(36).slice(2);
+  const portadas = buildCoverCandidates({ coverId, isbn, coverEditionKey, editionKey });
 
   return {
     id,
@@ -53,11 +59,21 @@ export function mapBook(doc) {
     paginas: doc.number_of_pages_median || '-',
     idioma: Array.isArray(doc.language) ? doc.language[0] : (doc.language || 'und'),
     categorias: Array.isArray(doc.subject) ? doc.subject.slice(0, 3) : [],
-    isbn: Array.isArray(doc.isbn) ? doc.isbn[0] : '',
-    portada: coverId ? `https://covers.openlibrary.org/b/id/${coverId}-M.jpg` : '',
+    isbn,
+    portada: portadas[0] || '',
+    portadas,
     previewLink: `https://openlibrary.org${doc.key}`,
     ediciones: doc.edition_count || 1,
   };
+}
+
+function buildCoverCandidates({ coverId, isbn, coverEditionKey, editionKey }) {
+  return [
+    coverId ? `https://covers.openlibrary.org/b/id/${coverId}-M.jpg?default=false` : '',
+    coverEditionKey ? `https://covers.openlibrary.org/b/olid/${coverEditionKey}-M.jpg?default=false` : '',
+    isbn ? `https://covers.openlibrary.org/b/isbn/${encodeURIComponent(isbn)}-M.jpg?default=false` : '',
+    editionKey ? `https://covers.openlibrary.org/b/olid/${editionKey}-M.jpg?default=false` : '',
+  ].filter(Boolean);
 }
 
 export async function fetchDescription(bookId) {

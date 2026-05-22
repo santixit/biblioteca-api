@@ -1,6 +1,7 @@
 import { Archive, XCircle } from 'lucide-react';
 import EmptyState from './EmptyState.jsx';
 import { reservationStatusLabel } from '../utils/books.js';
+import CoverImage from './CoverImage.jsx';
 
 function Reservations({ items, onCancel }) {
   return (
@@ -14,7 +15,7 @@ function Reservations({ items, onCancel }) {
           {items.map((item) => (
             <div className="item-row" key={item.rid}>
               <div className="thumb">
-                {item.portada ? <img src={item.portada} alt="" /> : <Archive size={22} />}
+                {item.portada || item.portadas?.length ? <CoverImage book={item} alt="" placeholderSize={20} /> : <Archive size={22} />}
               </div>
               <div className="item-info">
                 <div className="item-title">{item.titulo}</div>
