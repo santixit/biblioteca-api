@@ -1,41 +1,42 @@
+# Campus Library
 
-# Campus Library - estructura organizada
+Aplicacion de biblioteca universitaria migrada a React con Vite.
 
-Proyecto reorganizado en una estructura más profesional, sin usar build tools.
+## Funcionalidades
+
+- Busqueda de libros usando Open Library.
+- Filtros por idioma, ano y tema.
+- Detalle de libro en modal.
+- Favoritos, lista de lectura, reservas e historial con `localStorage`.
+- Boton visible para volver al catalogo despues de buscar o filtrar.
+- Tema claro/oscuro.
 
 ## Estructura
 
 ```text
 biblioteca-profesional/
 ├── index.html
-├── assets/
-│   ├── css/
-│   │   └── styles.css
-│   └── js/
-│       ├── app.js
-│       ├── core/
-│       │   ├── state.js
-│       │   ├── storage.js
-│       │   └── theme.js
-│       ├── services/
-│       │   └── openLibrary.js
-│       ├── ui/
-│       │   ├── catalog.js
-│       │   ├── modal.js
-│       │   └── navigation.js
-│       └── features/
-│           ├── favorites.js
-│           ├── history.js
-│           ├── readingList.js
-│           └── reservations.js
+├── package.json
+├── vite.config.js
+└── src/
+    ├── App.jsx
+    ├── main.jsx
+    ├── styles.css
+    ├── components/
+    ├── hooks/
+    ├── services/
+    └── utils/
 ```
 
-## Cómo abrir
+## Ejecutar
 
-Abre `index.html` en el navegador.
+```bash
+npm install
+npm run dev
+```
 
-## Qué cambió
+Para generar version de produccion:
 
-- Se eliminaron `onclick` inline del HTML.
-- La lógica quedó separada por responsabilidad.
-- Se mantuvo el mismo comportamiento funcional del proyecto original.
+```bash
+npm run build
+```
